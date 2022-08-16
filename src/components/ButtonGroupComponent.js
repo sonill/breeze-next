@@ -8,7 +8,6 @@ const ButtonGroupComponent = ({ tabs, defaultTab }) => {
     const selTab = query.tab !== undefined ? query.tab : defaultTab
 
     const selectedCss = curRoute => {
-        console.log(pathname + '?tab=' + query.tab, curRoute)
         return curRoute === pathname + '?tab=' + selTab ? `bg-gray-200 ` : null
     }
 

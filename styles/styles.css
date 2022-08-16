@@ -1,0 +1,27 @@
+@keyframes progressAnimation {
+	from {left:0;}
+	to {left: calc(100vw - 150px);}
+  }
+
+
+.page-loading-anim {
+	background: rgba(0, 0, 0, 0.356);
+	position: absolute;
+	left: 0;
+	top:0;
+	right: 0;
+	height: 5px;
+}
+
+.page-loading-anim .loader{
+	width: 150px;
+	position: absolute;
+	background-color: red;;
+	top: 0;
+	left: 0;
+	height: 5px;
+	animation-name: progressAnimation;
+	animation-duration: 3s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}

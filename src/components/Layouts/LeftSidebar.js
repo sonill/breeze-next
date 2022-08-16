@@ -8,7 +8,7 @@ const LeftSidebar = () => {
             className="h-[calc(100vh-46px)] w-[160px] overflow-hidden overflow-y-auto border-r  text-sm">
             <ul className="mb-[20px]">
                 <li>
-                    <MenuLink route="/loading" label="Home" />
+                    <MenuLink route="/" label="Home" />
                 </li>
             </ul>
 
@@ -16,7 +16,7 @@ const LeftSidebar = () => {
 
             <ul>
                 <li className="">
-                    <MenuLink route="/loading/questions" label="Questions" />
+                    <MenuLink route="/questions" label="Questions" />
                 </li>
                 <li className="">
                     <MenuLink route="/tags" label="Tags" />
