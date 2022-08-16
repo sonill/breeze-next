@@ -1,8 +1,7 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
 import SingleAnswer from '@/components/SingleAnswer'
-import { data } from 'autoprefixer'
-import { useRouter } from 'next/router'
+import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
     return (
@@ -15,8 +14,15 @@ const Questions = ({ questions, answers }) => {
                                 {questions.data.question}
                             </h3>
                             <ul className="flex text-[13px] text-gray-500">
-                                <li className="mr-6">Asked 2 days ago</li>
-                                <li className="mr-6">Viewed 1 times</li>
+                                <li className="mr-6">
+                                    Asked{' '}
+                                    {daysjs(questions.data.created_at).format(
+                                        'MMM D, YYYY',
+                                    )}{' '}
+                                </li>
+                                <li className="mr-6">
+                                    Viewed {questions.data.views} times
+                                </li>
                             </ul>
                         </div>
                         <div className="flex min-w-[150px] justify-end">
@@ -41,7 +47,10 @@ const Questions = ({ questions, answers }) => {
                                 <h3 className="text-xl">15 Answers</h3>
 
                                 {answers.data.map(answer => (
-                                    <SingleAnswer data={answer} />
+                                    <SingleAnswer
+                                        key={answer.id}
+                                        data={answer}
+                                    />
                                 ))}
                             </div>
                         </div>

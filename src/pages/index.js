@@ -8,7 +8,7 @@ import ButtonGroupComponent from '@/components/ButtonGroupComponent'
 import BlueBtn from '@/components/BlueBtn'
 
 const Home = ({ posts }) => {
-    const { user } = useAuth({ middleware: 'auth' })
+    // const { user } = useAuth({ middleware: 'guest' })
 
     return (
         <AppLayout pageTitle="Home Page">
@@ -44,7 +44,7 @@ const Home = ({ posts }) => {
                     {/* contents */}
                     <div className="questions-list mb-6">
                         {posts.data.map(post => (
-                            <Question data={post} />
+                            <Question key={post.id} data={post} />
                         ))}
                     </div>
                 </div>
@@ -59,7 +59,6 @@ export async function getStaticProps() {
     const res = await fetch(process.env.API_BASE_URL + 'questions')
     const posts = await res.json()
 
-    console.log(posts)
     return {
         props: {
             posts,
