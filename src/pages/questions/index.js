@@ -6,7 +6,7 @@ import BlueBtn from '@/components/BlueBtn'
 
 const Home = ({ posts }) => {
     return (
-        <AppLayout pageTitle="Home Page">
+        <AppLayout pageTitle="All Questions Page">
             <div className="flex">
                 <div className="left-content flex-1">
                     {/* Section Title */}
@@ -22,10 +22,8 @@ const Home = ({ posts }) => {
                             <div className="flex-1 ml-5">
                                 {posts.meta.total} questions
                             </div>
-                            {/* <ul className="flex rounded-[3px] border border-gray-400 text-[14px]"> */}
                             <ButtonGroupComponent
-                                label="Newest"
-                                url="#"
+                                defaultTab="active"
                                 tabs={[
                                     {
                                         label: 'Newest',
@@ -45,25 +43,6 @@ const Home = ({ posts }) => {
                                     },
                                 ]}
                             />
-                            {/* <ButtonGroupComponent
-                                    label="Active"
-                                    url="#"
-                                    selected={1}
-                                />
-                                <ButtonGroupComponent
-                                    label="Bountied"
-                                    url="#"
-                                />
-                                <ButtonGroupComponent
-                                    label="Unanswered"
-                                    url="#"
-                                />
-                                <ButtonGroupComponent
-                                    label="Month"
-                                    url="#"
-                                    isLastItem={1}
-                                /> */}
-                            {/* </ul> */}
                         </div>
                     </div>
 

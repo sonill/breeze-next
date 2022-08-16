@@ -22,7 +22,7 @@ const Question = ({ data }) => {
 
                 <div className="question ml-7 flex-1">
                     <h2 className="mb-3">
-                        <Link href={`/questions/${data.id}`}>
+                        <Link href={`/loading/questions/${data.id}`}>
                             <a className="text-lg text-blue-700">
                                 {data.question}
                             </a>

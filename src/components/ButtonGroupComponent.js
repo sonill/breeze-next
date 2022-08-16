@@ -1,17 +1,15 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-const ButtonGroupComponent = ({ label, url, selected, isLastItem, tabs }) => {
+const ButtonGroupComponent = ({ tabs, defaultTab }) => {
     const { pathname, query } = useRouter()
     const totalItems = tabs.length
 
-    const selTab = query.tab !== undefined ? query.tab : 'active'
+    const selTab = query.tab !== undefined ? query.tab : defaultTab
 
     const selectedCss = curRoute => {
         console.log(pathname + '?tab=' + query.tab, curRoute)
-        return curRoute === pathname + '?tab=' + query.tab
-            ? `bg-gray-200 `
-            : null
+        return curRoute === pathname + '?tab=' + selTab ? `bg-gray-200 ` : null
     }
 
     return (

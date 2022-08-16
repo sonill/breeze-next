@@ -8,15 +8,15 @@ const LeftSidebar = () => {
             className="h-[calc(100vh-46px)] w-[160px] overflow-hidden overflow-y-auto border-r  text-sm">
             <ul className="mb-[20px]">
                 <li>
-                    <MenuLink route="/" label="Home" />
+                    <MenuLink route="/loading" label="Home" />
                 </li>
             </ul>
 
-            <h5 className="mb-[7px] px-2 text-[12px] text-gray-400">PUBLIC</h5>
+            <h5 className=" px-2 text-[12px] text-gray-400">PUBLIC</h5>
 
             <ul>
                 <li className="">
-                    <MenuLink route="/questions" label="Questions" />
+                    <MenuLink route="/loading/questions" label="Questions" />
                 </li>
                 <li className="">
                     <MenuLink route="/tags" label="Tags" />

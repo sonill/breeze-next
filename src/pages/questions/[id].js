@@ -5,7 +5,7 @@ import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
     return (
-        <AppLayout pageTitle="Home Page">
+        <AppLayout pageTitle={questions.data.question}>
             <>
                 <div className="pl-5 ">
                     <div className="flex items-start justify-between border-b pb-4 mb-4">
@@ -62,8 +62,14 @@ const Questions = ({ questions, answers }) => {
     )
 }
 
-export async function getServerSideProps(context) {
-    const id = context.params.id
+export async function getServerSideProps({ params, res }) {
+    // cache for 5 min.
+    res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=31536000, stale-while-revalidate=59',
+    )
+
+    const id = params.id
 
     const questions_re = await fetch(
         process.env.API_BASE_URL + 'questions/' + id,
@@ -75,7 +81,6 @@ export async function getServerSideProps(context) {
     )
     const answers = await answers_res.json()
 
-    console.log(questions)
     return {
         props: {
             questions,

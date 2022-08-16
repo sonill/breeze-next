@@ -24,20 +24,31 @@ const Home = ({ posts }) => {
                         </div>
 
                         <div className="mt-[15px] flex justify-end">
-                            <ul className="flex rounded-[3px] border border-gray-400 text-[14px]">
-                                <ButtonGroupComponent
-                                    label="Interesting"
-                                    url="#"
-                                    selected={1}
-                                />
-                                <ButtonGroupComponent label="Hot" url="#" />
-                                <ButtonGroupComponent label="Week" url="#" />
-                                <ButtonGroupComponent
-                                    label="Month"
-                                    url="#"
-                                    isLastItem={1}
-                                />
-                            </ul>
+                            <ButtonGroupComponent
+                                defaultTab="interesting"
+                                tabs={[
+                                    {
+                                        label: 'Interesting',
+                                        route: '/?tab=interesting',
+                                    },
+                                    {
+                                        label: 'Bountied',
+                                        route: '/?tab=bountied',
+                                    },
+                                    {
+                                        label: 'Hot',
+                                        route: '/?tab=hot',
+                                    },
+                                    {
+                                        label: 'Week',
+                                        route: '/?tab=week',
+                                    },
+                                    {
+                                        label: 'Month',
+                                        route: '/?tab=month',
+                                    },
+                                ]}
+                            />
                         </div>
                     </div>
 
