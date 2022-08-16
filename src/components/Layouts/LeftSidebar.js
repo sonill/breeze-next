@@ -1,17 +1,14 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-const LeftSidebar = ({ user }) => {
+const LeftSidebar = () => {
     return (
         <div
             id="app-navigation-sidebar"
-            className="h-[calc(100vh-46px)] w-[160px] overflow-hidden overflow-y-auto border-r mt-5 text-sm">
+            className="h-[calc(100vh-46px)] w-[160px] overflow-hidden overflow-y-auto border-r  text-sm">
             <ul className="mb-[20px]">
                 <li>
-                    <Link href="/">
-                        <a className="block border-r-[3px] border-orange-600 bg-gray-100 p-2 font-bold">
-                            Home
-                        </a>
-                    </Link>
+                    <MenuLink route="/" label="Home" />
                 </li>
             </ul>
 
@@ -19,28 +16,31 @@ const LeftSidebar = ({ user }) => {
 
             <ul>
                 <li className="">
-                    <Link href="/questions">
-                        <a className="block p-2 text-gray-500 hover:text-black">
-                            Questions
-                        </a>
-                    </Link>
+                    <MenuLink route="/questions" label="Questions" />
                 </li>
                 <li className="">
-                    <Link href="/">
-                        <a className="block p-2 text-gray-500 hover:text-black">
-                            Tags
-                        </a>
-                    </Link>
+                    <MenuLink route="/tags" label="Tags" />
                 </li>
                 <li className="">
-                    <Link href="/">
-                        <a className="block p-2 text-gray-500 hover:text-black">
-                            Users
-                        </a>
-                    </Link>
+                    <MenuLink route="/users" label="Users" />
                 </li>
             </ul>
         </div>
+    )
+}
+
+const MenuLink = ({ route, label }) => {
+    const router = useRouter()
+
+    return (
+        <Link href={route}>
+            <a
+                className={`block p-2 text-gray-500 hover:text-black ${
+                    router.pathname == route ? 'bg-gray-100 font-bold ' : null
+                }`}>
+                {label}
+            </a>
+        </Link>
     )
 }
 

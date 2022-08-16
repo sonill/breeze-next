@@ -15,7 +15,9 @@ const AppLayout = ({ pageTitle, children }) => {
 
             <Header />
 
-            <div id="app-body" className="container mx-auto flex max-w-7xl">
+            <div
+                id="app-body"
+                className="container mx-auto flex max-w-7xl mt-4">
                 <LeftSidebar />
 
                 <main id="app-content-area" className="flex-1">

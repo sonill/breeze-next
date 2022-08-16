@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
-import Question from '../components/Question'
+import Question from '../components/Questions/Question'
 import ButtonGroupComponent from '@/components/ButtonGroupComponent'
 import BlueBtn from '@/components/BlueBtn'
 
@@ -12,7 +12,7 @@ const Home = ({ posts }) => {
 
     return (
         <AppLayout pageTitle="Home Page">
-            <div className="flex  mt-4">
+            <div className="flex">
                 <div className="left-content flex-1">
                     {/* Section Title */}
                     <div className="flex-1 pb-4">

@@ -1,13 +1,13 @@
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
-import SingleAnswer from '@/components/SingleAnswer'
+import SingleAnswer from '@/components/SingleQuestion/SingleAnswer'
 import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
     return (
         <AppLayout pageTitle="Home Page">
             <>
-                <div className="pl-5 pt-5">
+                <div className="pl-5 ">
                     <div className="flex items-start justify-between border-b pb-4 mb-4">
                         <div>
                             <h3 className="mb-3 text-[25px] leading-[1.3]">
