@@ -6,9 +6,20 @@ import RightSidebar from '@/components/Layouts/RightSidebar'
 import Question from '../components/Questions/Question'
 import ButtonGroupComponent from '@/components/ButtonGroupComponent'
 import BlueBtn from '@/components/BlueBtn'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Questions from './questions/[id]'
 
 const Home = ({ posts }) => {
     // const { user } = useAuth({ middleware: 'guest' })
+
+    const { query } = useRouter()
+
+    // const selTab = query.tab !== undefined ? query.tab : defaultTab
+
+    // useEffect(() => {
+    //     console.log('index', tab)
+    // }, [tab])
 
     return (
         <AppLayout pageTitle="Home Page">
@@ -66,7 +77,25 @@ const Home = ({ posts }) => {
     )
 }
 
-export async function getStaticProps() {
+// export async function getStaticPaths() {
+//     const res = await fetch(process.env.API_BASE_URL + 'questions')
+//     const posts = await res.json()
+
+//     console.log('posts', posts)
+
+//     return {
+//         paths: posts.data.map(item => ({
+//             params: {
+//                 id: '1', //item.id.toString()
+//             },
+//         })),
+//         fallback: true,
+//     }
+// }
+
+export async function getStaticProps({ params }) {
+    // const selTab = params.tab !== undefined ? params.tab : 'interesting'
+
     const res = await fetch(process.env.API_BASE_URL + 'questions')
     const posts = await res.json()
 

@@ -4,6 +4,9 @@ import SingleAnswer from '@/components/SingleQuestion/SingleAnswer'
 import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
+    // console.log('questions', questions)
+    // console.log('answers', answers)
+    if (!questions || !answers) return <></>
     return (
         <AppLayout pageTitle={questions.data.question}>
             <>
@@ -44,7 +47,9 @@ const Questions = ({ questions, answers }) => {
                             />
 
                             <div className="answers-container mt-[60px]">
-                                <h3 className="text-xl">15 Answers</h3>
+                                <h3 className="text-xl">
+                                    {answers.data.length} Answers
+                                </h3>
 
                                 {answers.data.map(answer => (
                                     <SingleAnswer
@@ -62,12 +67,25 @@ const Questions = ({ questions, answers }) => {
     )
 }
 
-export async function getServerSideProps({ params, res }) {
-    // cache for 5 min.
-    res.setHeader(
-        'Cache-Control',
-        'public, s-maxage=31536000, stale-while-revalidate=59',
-    )
+export async function getStaticPaths() {
+    const res = await fetch(process.env.API_BASE_URL + 'questions')
+    const posts = await res.json()
+
+    return {
+        paths: posts.data.map(item => ({
+            params: {
+                id: item.id.toString(),
+            },
+        })),
+        fallback: true,
+    }
+}
+
+export async function getStaticProps({ params, res }) {
+    // res.setHeader(
+    //     'Cache-Control',
+    //     'public, s-maxage=1000, stale-while-revalidate=59',
+    // )
 
     const id = params.id
 
