@@ -4,8 +4,6 @@ import SingleAnswer from '@/components/SingleQuestion/SingleAnswer'
 import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
-    // console.log('questions', questions)
-    // console.log('answers', answers)
     if (!questions || !answers) return <></>
     return (
         <AppLayout pageTitle={questions.data.question}>
@@ -82,11 +80,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params, res }) {
-    // res.setHeader(
-    //     'Cache-Control',
-    //     'public, s-maxage=1000, stale-while-revalidate=59',
-    // )
-
     const id = params.id
 
     const questions_re = await fetch(
@@ -99,11 +92,18 @@ export async function getStaticProps({ params, res }) {
     )
     const answers = await answers_res.json()
 
+    if (!questions || !answers) {
+        return {
+            notFound: true,
+        }
+    }
+
     return {
         props: {
             questions,
             answers,
         },
+        revalidate: 60, // 1 mins.
     }
 }
 
