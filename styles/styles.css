@@ -10,7 +10,7 @@
 	left: 0;
 	top:0;
 	right: 0;
-	height: 5px;
+	height: 3px;
 }
 
 .page-loading-anim .loader{
@@ -19,7 +19,7 @@
 	background-color: red;;
 	top: 0;
 	left: 0;
-	height: 5px;
+	height: 3px;
 	animation-name: progressAnimation;
 	animation-duration: 3s;
 	animation-iteration-count: infinite;

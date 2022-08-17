@@ -40,7 +40,7 @@ const Header = () => {
                     <a>
                         <img
                             src="http://stackoverflow.test/images/logo.svg"
-                            className="max-w-full"
+                            className="h-[30px]"
                         />
                     </a>
                 </Link>

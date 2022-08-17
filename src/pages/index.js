@@ -1,25 +1,74 @@
-import Head from 'next/head'
-import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
 import Question from '../components/Questions/Question'
 import ButtonGroupComponent from '@/components/ButtonGroupComponent'
 import BlueBtn from '@/components/BlueBtn'
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Questions from './questions/[id]'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
 
 const Home = ({ posts }) => {
     // const { user } = useAuth({ middleware: 'guest' })
 
-    const { query } = useRouter()
+    const [questions, setQuestions] = useState(posts)
 
-    // const selTab = query.tab !== undefined ? query.tab : defaultTab
+    const fetchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + 'questions/'
+
+    const fetchData = async () => await fetch(fetchUrl).then(res => res.json())
+    // const { data, error } = useSWR(fetchUrl, url => {
+    //     fetch(url).then(res => res.json())
+    // })
+
+    const updateQuestions = async curTab => {
+        // console.log('--------------------------')
+
+        // if (curTab === 'interesting') {
+        //     setQuestions(posts)
+        // } else {
+        //     setFetchNewData(true)
+        // }
+
+        if (curTab === 'interesting') {
+            setQuestions(posts)
+        } else {
+            console.log('else')
+            setQuestions([])
+            await fetch(fetchUrl)
+                .then(res => res.json())
+                .then(result => {
+                    console.log('fetch')
+                })
+                .catch(e => console.log(e))
+        }
+    }
+
+    // const = datafetchData()
+    // setQuestions()
+    // const fetchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + 'questions/'
+    // const { data, error } = useSWR(fetchUrl, fetchUrl =>
+    //     fetch(url).then(res => res.json()),
+    // )
+    // const fetchData = async () => {
+    //     await fetch(fetchUrl)
+    //         .then(res => res.json())
+    //         .catch(e => alert(e))
+    // }
+    // console.log('test', fetchData())
+    // console.log('curTab', curTab)
+    // console.log('data', data)
+
+    // if (error) return 'An error has occurred.'
+    // if (!data) return 'Loading...'
 
     // useEffect(() => {
-    //     console.log('index', tab)
-    // }, [tab])
+    //     // fetch api if url changes.
+    //     // if (selTab == 'interesting') {
+    //     //     setQuestions(posts)
+    //     // } else {
+    //     //     setQuestions([])
+    //     // }
+    // }, [selTab])
 
     return (
         <AppLayout pageTitle="Home Page">
@@ -37,6 +86,7 @@ const Home = ({ posts }) => {
                         <div className="mt-[15px] flex justify-end">
                             <ButtonGroupComponent
                                 defaultTab="interesting"
+                                updateQuestions={updateQuestions}
                                 tabs={[
                                     {
                                         label: 'Interesting',
@@ -65,7 +115,7 @@ const Home = ({ posts }) => {
 
                     {/* contents */}
                     <div className="questions-list mb-6">
-                        {posts.data.map(post => (
+                        {questions?.data?.map(post => (
                             <Question key={post.id} data={post} />
                         ))}
                     </div>
@@ -77,32 +127,15 @@ const Home = ({ posts }) => {
     )
 }
 
-// export async function getStaticPaths() {
-//     const res = await fetch(process.env.API_BASE_URL + 'questions')
-//     const posts = await res.json()
-
-//     console.log('posts', posts)
-
-//     return {
-//         paths: posts.data.map(item => ({
-//             params: {
-//                 id: '1', //item.id.toString()
-//             },
-//         })),
-//         fallback: true,
-//     }
-// }
-
 export async function getStaticProps({ params }) {
-    // const selTab = params.tab !== undefined ? params.tab : 'interesting'
-
-    const res = await fetch(process.env.API_BASE_URL + 'questions')
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'questions')
     const posts = await res.json()
 
     return {
         props: {
             posts,
         },
+        revalidate: 60,
     }
 }
 

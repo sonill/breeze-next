@@ -66,7 +66,7 @@ const Questions = ({ questions, answers }) => {
 }
 
 export async function getStaticPaths() {
-    const res = await fetch(process.env.API_BASE_URL + 'questions')
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'questions')
     const posts = await res.json()
 
     return {
@@ -83,12 +83,12 @@ export async function getStaticProps({ params, res }) {
     const id = params.id
 
     const questions_re = await fetch(
-        process.env.API_BASE_URL + 'questions/' + id,
+        process.env.NEXT_PUBLIC_API_BASE_URL + 'questions/' + id,
     )
     const questions = await questions_re.json()
 
     const answers_res = await fetch(
-        process.env.API_BASE_URL + 'answersofquestion/' + id,
+        process.env.NEXT_PUBLIC_API_BASE_URL + 'answersofquestion/' + id,
     )
     const answers = await answers_res.json()
 

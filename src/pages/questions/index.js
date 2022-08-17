@@ -22,12 +22,11 @@ const Home = ({ posts }) => {
                             <div className="flex-1 ml-5">
                                 {posts.meta.total} questions
                             </div>
-                            <ButtonGroupComponent
-                                defaultTab="active"
+                            {/* <ButtonGroupComponent
                                 tabs={[
                                     {
                                         label: 'Newest',
-                                        route: '/questions?tab=newest',
+                                        route: '/questions',
                                     },
                                     {
                                         label: 'Active',
@@ -41,7 +40,7 @@ const Home = ({ posts }) => {
                                         label: 'Unanswered',
                                         route: '/questions?tab=unanswered',
                                     },
-                                ]}
+                                ]} */}
                             />
                         </div>
                     </div>
@@ -61,7 +60,7 @@ const Home = ({ posts }) => {
 }
 
 export async function getStaticProps() {
-    const res = await fetch(process.env.API_BASE_URL + 'questions')
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'questions')
     const posts = await res.json()
 
     return {
