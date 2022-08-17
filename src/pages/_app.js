@@ -2,6 +2,7 @@ import '../../styles/styles.css'
 import 'tailwindcss/tailwind.css'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
+import LoadingIndicator from '@/components/LoadingIndicator'
 
 // const App = ({ Component, pageProps }) => <Component {...pageProps} />
 
@@ -27,11 +28,7 @@ const App = ({ Component, pageProps }) => {
 
     return (
         <>
-            {loading && (
-                <div className="page-loading-anim ">
-                    <div className="loader"></div>
-                </div>
-            )}
+            {loading && <LoadingIndicator />}
             <Component {...pageProps} />
         </>
     )

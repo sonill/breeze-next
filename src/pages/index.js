@@ -6,72 +6,59 @@ import ButtonGroupComponent from '@/components/ButtonGroupComponent'
 import BlueBtn from '@/components/BlueBtn'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import useSWR from 'swr'
+import LoadingIndicator from '@/components/LoadingIndicator'
 
 const Home = ({ posts }) => {
     // const { user } = useAuth({ middleware: 'guest' })
 
+    const { query } = useRouter()
+
     const [questions, setQuestions] = useState(posts)
+    const [isLoading, setIsLoading] = useState(false)
 
-    const fetchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + 'questions/'
+    const defaultTab = 'interesting'
 
-    const fetchData = async () => await fetch(fetchUrl).then(res => res.json())
-    // const { data, error } = useSWR(fetchUrl, url => {
-    //     fetch(url).then(res => res.json())
-    // })
+    const fetchUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL +
+        'questions-by-tags/' +
+        (query.tab == undefined ? query.tab : query.tab)
+
+    const fetchData = async () => {
+        // fetch is already initiated.
+        if (isLoading) return
+
+        setIsLoading(true)
+        return await fetch(fetchUrl)
+            .then(res => res.json())
+            .then(result => {
+                console.log('fetch')
+                setQuestions(result)
+
+                // fetch finished.
+                setIsLoading(false)
+            })
+            .catch(e => console.log(e))
+    }
 
     const updateQuestions = async curTab => {
-        // console.log('--------------------------')
-
-        // if (curTab === 'interesting') {
-        //     setQuestions(posts)
-        // } else {
-        //     setFetchNewData(true)
-        // }
-
-        if (curTab === 'interesting') {
+        if (curTab === defaultTab) {
             setQuestions(posts)
         } else {
-            console.log('else')
-            setQuestions([])
-            await fetch(fetchUrl)
-                .then(res => res.json())
-                .then(result => {
-                    console.log('fetch')
-                })
-                .catch(e => console.log(e))
+            fetchData()
         }
     }
 
-    // const = datafetchData()
-    // setQuestions()
-    // const fetchUrl = process.env.NEXT_PUBLIC_API_BASE_URL + 'questions/'
-    // const { data, error } = useSWR(fetchUrl, fetchUrl =>
-    //     fetch(url).then(res => res.json()),
-    // )
-    // const fetchData = async () => {
-    //     await fetch(fetchUrl)
-    //         .then(res => res.json())
-    //         .catch(e => alert(e))
-    // }
-    // console.log('test', fetchData())
-    // console.log('curTab', curTab)
-    // console.log('data', data)
+    useEffect(() => {
+        //    console.log('selTab', selTab)
 
-    // if (error) return 'An error has occurred.'
-    // if (!data) return 'Loading...'
-
-    // useEffect(() => {
-    //     // fetch api if url changes.
-    //     // if (selTab == 'interesting') {
-    //     //     setQuestions(posts)
-    //     // } else {
-    //     //     setQuestions([])
-    //     // }
-    // }, [selTab])
+        if (query.tab !== undefined && query.tab !== defaultTab) {
+            fetchData()
+        }
+    }, [query.tab])
 
     return (
         <AppLayout pageTitle="Home Page">
+            {isLoading && <LoadingIndicator />}
             <div className="flex">
                 <div className="left-content flex-1">
                     {/* Section Title */}
@@ -83,9 +70,9 @@ const Home = ({ posts }) => {
                             <BlueBtn label="Add Question" url="#" />
                         </div>
 
-                        <div className="mt-[15px] flex justify-end">
+                        <div className="mt-[5px] flex justify-end">
                             <ButtonGroupComponent
-                                defaultTab="interesting"
+                                defaultTab={defaultTab}
                                 updateQuestions={updateQuestions}
                                 tabs={[
                                     {
@@ -128,7 +115,9 @@ const Home = ({ posts }) => {
 }
 
 export async function getStaticProps({ params }) {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'questions')
+    const res = await fetch(
+        process.env.NEXT_PUBLIC_API_BASE_URL + 'questions-by-tags/interesting',
+    )
     const posts = await res.json()
 
     return {

@@ -22,11 +22,13 @@ const Home = ({ posts }) => {
                             <div className="flex-1 ml-5">
                                 {posts.meta.total} questions
                             </div>
-                            {/* <ButtonGroupComponent
+                            <ButtonGroupComponent
+                                defaultTab="active"
+                                updateQuestions={() => {}}
                                 tabs={[
                                     {
                                         label: 'Newest',
-                                        route: '/questions',
+                                        route: '/questions?tab=newest',
                                     },
                                     {
                                         label: 'Active',
@@ -40,7 +42,7 @@ const Home = ({ posts }) => {
                                         label: 'Unanswered',
                                         route: '/questions?tab=unanswered',
                                     },
-                                ]} */}
+                                ]}
                             />
                         </div>
                     </div>

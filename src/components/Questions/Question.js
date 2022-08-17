@@ -11,7 +11,7 @@ const Question = ({ data }) => {
                         <li
                             className={`mb-2 block rounded border py-1 px-2 ${
                                 data.selected_answer
-                                    ? 'text-white bg-green-700'
+                                    ? 'text-white bg-green-700 border-green-700'
                                     : null
                             } `}>
                             {data.total_comments} answers

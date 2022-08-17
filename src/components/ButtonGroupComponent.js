@@ -1,20 +1,20 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const ButtonGroupComponent = ({ tabs, defaultTab, updateQuestions }) => {
-    const { pathname, query } = useRouter()
+    const { query } = useRouter()
     const totalItems = tabs.length
 
-    const [selTab, setSelTab] = useState(
-        query.tab !== undefined ? query.tab : defaultTab,
-    )
+    const [selTab, setSelTab] = useState(defaultTab)
 
-    console.log('selTab', selTab, query.tab, query.tab == undefined)
+    useEffect(() => {
+        if (query.tab !== undefined && selTab != query.tab) {
+            setSelTab(query.tab)
+        }
+    }, [query.tab])
 
-    const handleTabClick = (e, route) => {
-        // e.preventDefault()
-
+    const handleTabClick = route => {
         const curTab = route.replace('/?tab=', '')
 
         // udpate local state.
@@ -36,10 +36,12 @@ const ButtonGroupComponent = ({ tabs, defaultTab, updateQuestions }) => {
                 <li key={item.label} className="flex">
                     <Link href={item.route}>
                         <a
-                            onClick={e => handleTabClick(e, item.route)}
+                            onClick={e => handleTabClick(item.route)}
                             className={`block border-r text-xs border-gray-400 px-3 py-[6px] hover:bg-gray-100 ${selectedCss(
                                 item.route,
-                            )} ${index >= totalItems ? `border-r-0` : null}`}>
+                            )} ${
+                                index >= totalItems - 1 ? `border-r-0 ` : null
+                            }`}>
                             {item.label}
                         </a>
                     </Link>
@@ -50,4 +52,3 @@ const ButtonGroupComponent = ({ tabs, defaultTab, updateQuestions }) => {
 }
 
 export default ButtonGroupComponent
-/* A component that is used to create a button group. */
