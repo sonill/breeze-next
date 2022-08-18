@@ -34,7 +34,9 @@ const Header = () => {
     }, [isMenuOpen])
 
     return (
-        <header id="main-header" className="bg-gray-50 shadow">
+        <header
+            id="main-header"
+            className="bg-gray-50 shadow absolute top-0 left-0 right-0">
             <div className="container mx-auto flex max-w-7xl items-center py-[7px]">
                 <Link href="/">
                     <a>

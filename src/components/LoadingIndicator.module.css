@@ -4,7 +4,7 @@
   }
 
 
-.page-loading-anim {
+.wrapper {
 	background: rgba(0, 0, 0, 0.356);
 	position: absolute;
 	left: 0;
@@ -13,7 +13,7 @@
 	height: 3px;
 }
 
-.page-loading-anim .loader{
+.loader{
 	width: 150px;
 	position: absolute;
 	background-color: red;;

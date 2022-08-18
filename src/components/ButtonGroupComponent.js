@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 const ButtonGroupComponent = ({ tabs, defaultTab, updateQuestions }) => {
     const { query } = useRouter()
     const totalItems = tabs.length
-
     const [selTab, setSelTab] = useState(defaultTab)
 
     useEffect(() => {
@@ -14,20 +13,28 @@ const ButtonGroupComponent = ({ tabs, defaultTab, updateQuestions }) => {
         }
     }, [query.tab])
 
-    const handleTabClick = route => {
-        const curTab = route.replace('/?tab=', '')
+    const extractTabName = route => {
+        if (route.indexOf('/questions/?tab=') >= 0) {
+            return route.replace('/questions/?tab=', '')
+        } else if (route.indexOf('/?tab=') >= 0) {
+            return route.replace('/?tab=', '')
+        } else {
+            return route.replace('?tab=', '')
+        }
+    }
 
-        // udpate local state.
+    const handleTabClick = route => {
+        const curTab = extractTabName(route)
+
+        // update local state.
         setSelTab(curTab)
 
         // fetch new data for currently selected tab.
         updateQuestions(curTab)
     }
 
-    // const selTab = query.tab !== undefined ? query.tab : defaultTab
-
     const selectedCss = curRoute => {
-        return curRoute.replace('/?tab=', '') == selTab ? `bg-gray-200 ` : null
+        return extractTabName(curRoute) == selTab ? `bg-gray-200 ` : null
     }
 
     return (

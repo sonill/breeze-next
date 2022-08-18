@@ -1,4 +1,3 @@
-import '../../styles/styles.css'
 import 'tailwindcss/tailwind.css'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
@@ -24,7 +23,6 @@ const App = ({ Component, pageProps }) => {
             Router.events.off('routeChangeError', end)
         }
     }, [])
-    // return <>{loading ? <h1>Loading...</h1> : <Component {...pageProps} />}</>
 
     return (
         <>

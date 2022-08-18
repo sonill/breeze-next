@@ -1,7 +1,9 @@
+import styles from './LoadingIndicator.module.css'
+
 const LoadingIndicator = () => {
     return (
-        <div className="page-loading-anim ">
-            <div className="loader"></div>
+        <div className={styles.wrapper}>
+            <div className={styles.loader}></div>
         </div>
     )
 }

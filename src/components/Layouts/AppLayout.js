@@ -1,4 +1,4 @@
-import Navigation from '@/components/Layouts/Navigation'
+// import Navigation from '@/components/Layouts/Navigation'
 // import { useAuth } from '@/hooks/auth'
 import LeftSidebar from './LeftSidebar'
 import Header from './Header'
@@ -13,16 +13,18 @@ const AppLayout = ({ pageTitle, children }) => {
                 <title>{pageTitle}</title>
             </Head>
 
-            <Header />
+            <div className="pt-[52px]">
+                <Header />
 
-            <div
-                id="app-body"
-                className="container mx-auto flex max-w-7xl mt-4">
-                <LeftSidebar />
+                <div
+                    id="app-body"
+                    className="container mx-auto flex max-w-7xl mt-4">
+                    <LeftSidebar />
 
-                <main id="app-content-area" className="flex-1">
-                    {children}
-                </main>
+                    <main id="app-content-area" className="flex-1">
+                        {children}
+                    </main>
+                </div>
             </div>
         </>
     )
