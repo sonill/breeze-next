@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Header from '@/components/Layouts/Header'
 import FormGroup from '@/components/Forms/FormGroup'
+import EditorComponent from '@/components/Forms/EditorComponent'
 
 const Ask = () => {
     return (
@@ -43,7 +44,11 @@ const Ask = () => {
                                     id="body"
                                     title="Body"
                                     description="Include all the information someone would need to answer your question">
-                                    <textarea placeholder="Is there any r function?"></textarea>
+                                    {/* <textarea placeholder="Is there any r function?"></textarea> */}
+                                    <EditorComponent
+                                        value="this is default text"
+                                        onChange={() => {}}
+                                    />
                                 </FormGroup>
 
                                 <FormGroup
