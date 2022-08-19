@@ -1,36 +1,55 @@
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-// import { CKEditor } from '@ckeditor/ckeditor5-react'
-import React, { Component, useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
+
+const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+    ssr: false,
+    loading: () => <p>Loading ...</p>,
+})
+
+const modules = {
+    toolbar: [
+        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ list: 'ordered' }, { list: 'bullet' }],
+
+        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+
+        ['clean'],
+    ],
+    clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+    },
+}
+/*
+ * Quill editor formats
+ * See https://quilljs.com/docs/formats/
+ */
+const formats = [
+    'font',
+    'color',
+    'background',
+    'size',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'code-block',
+    'blockquote',
+    'list',
+    'bullet',
+    'link',
+    'image',
+]
 
 const EditorComponent = ({ value, onChange }) => {
-    const editorRef = useRef()
-    const [editorLoaded, setEditorLoaded] = useState(false)
-    const { CKEditor, ClassicEditor } = editorRef.current || {}
-
-    useEffect(() => {
-        editorRef.current = {
-            CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, // v3+
-            ClassicEditor: require('@ckeditor/ckeditor5-build-classic'),
-        }
-        setEditorLoaded(true)
-    }, [])
-
-    // console.log(ClassicEditor.builtinPlugins.map(plugin => plugin.pluginName))
-    return editorLoaded ? (
-        <CKEditor
-            editor={ClassicEditor}
-            data={value}
-            config={{
-                removePlugins: ['Table', 'MediaEmbed'],
-            }}
-            onChange={(event, editor) => {
-                const data = editor.getData()
-
-                onChange(data)
-            }}
+    return (
+        <QuillNoSSRWrapper
+            modules={modules}
+            formats={formats}
+            value={value}
+            onChange={data => onChange(data)}
         />
-    ) : (
-        <div>Editor loading</div>
     )
 }
 

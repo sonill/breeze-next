@@ -1,3 +1,5 @@
+import 'react-quill/dist/quill.snow.css'
+
 import 'tailwindcss/tailwind.css'
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
