@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Header from '@/components/Layouts/Header'
 import FormGroup from '@/components/Forms/FormGroup'
 import EditorComponent from '@/components/Forms/EditorComponent'
+import TagsSelect from '@/components/Forms/TagsSelect'
 
 const Ask = () => {
     return (
@@ -37,6 +38,7 @@ const Ask = () => {
                                     <input
                                         type="text"
                                         placeholder="Is there any r function?"
+                                        className="w-[100%] text-xs py-2 border-gray-400 rounded focus:outline outline-offset-0 focus:border-0 focus:outline-4 focus:outline-blue-500/20"
                                     />
                                 </FormGroup>
 
@@ -46,7 +48,7 @@ const Ask = () => {
                                     description="Include all the information someone would need to answer your question">
                                     {/* <textarea placeholder="Is there any r function?"></textarea> */}
                                     <EditorComponent
-                                        value="this is default text"
+                                        value="Descripe your question here"
                                         onChange={() => {}}
                                     />
                                 </FormGroup>
@@ -55,7 +57,22 @@ const Ask = () => {
                                     id="tags"
                                     title="Tags"
                                     description="Add up to 5 tags to describe what your question is about">
-                                    <textarea placeholder="ex: mysql laravel ajax"></textarea>
+                                    <TagsSelect
+                                        options={[
+                                            {
+                                                value: 'chocolate',
+                                                label: 'Chocolate',
+                                            },
+                                            {
+                                                value: 'strawberry',
+                                                label: 'Strawberry',
+                                            },
+                                            {
+                                                value: 'vanilla',
+                                                label: 'Vanilla',
+                                            },
+                                        ]}
+                                    />
                                 </FormGroup>
                             </div>
 
