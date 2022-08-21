@@ -11,6 +11,7 @@
 	top:0;
 	right: 0;
 	height: 3px;
+	z-index: 9999;
 }
 
 .loader{
@@ -24,4 +25,5 @@
 	animation-duration: 3s;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
+	z-index: 99991;
 }

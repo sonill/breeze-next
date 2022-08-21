@@ -3,7 +3,7 @@ import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
 import Question from '../components/Questions/Question'
 import ButtonGroupComponent from '@/components/ButtonGroupComponent'
-import BlueBtn from '@/components/BlueBtn'
+import AskBtn from '@/components/AskBtn'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import LoadingIndicator from '@/components/LoadingIndicator'
@@ -49,8 +49,6 @@ const Home = ({ posts }) => {
     }
 
     useEffect(() => {
-        //    console.log('selTab', selTab)
-
         if (query.tab !== undefined && query.tab !== defaultTab) {
             fetchData()
         }
@@ -67,7 +65,7 @@ const Home = ({ posts }) => {
                             <h3 className="ml-5 text-[28px] flex-1">
                                 Top Questions{' '}
                             </h3>
-                            <BlueBtn label="Add Question" url="#" />
+                            <AskBtn />
                         </div>
 
                         <div className="mt-[5px] flex justify-end">

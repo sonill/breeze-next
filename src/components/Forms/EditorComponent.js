@@ -42,13 +42,13 @@ const formats = [
     'image',
 ]
 
-const EditorComponent = ({ value, onChange }) => {
+const EditorComponent = ({ value, setBody }) => {
     return (
         <QuillNoSSRWrapper
             modules={modules}
             formats={formats}
             value={value}
-            onChange={data => onChange(data)}
+            onChange={data => setBody(data)}
         />
     )
 }

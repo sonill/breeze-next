@@ -1,3 +1,4 @@
+import AskBtn from '@/components/AskBtn'
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
 import SingleAnswer from '@/components/SingleQuestion/SingleAnswer'
@@ -5,6 +6,8 @@ import daysjs from 'dayjs'
 
 const Questions = ({ questions, answers }) => {
     if (!questions || !answers) return <></>
+
+    console.log(questions.data)
     return (
         <AppLayout pageTitle={questions.data.question}>
             <>
@@ -27,11 +30,7 @@ const Questions = ({ questions, answers }) => {
                             </ul>
                         </div>
                         <div className="flex min-w-[150px] justify-end">
-                            <a
-                                href="#"
-                                className="rounded-[5px] bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-700">
-                                Ask Question
-                            </a>
+                            <AskBtn />
                         </div>
                     </div>
 

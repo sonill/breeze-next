@@ -1,6 +1,7 @@
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
+import { useSession, signIn } from 'next-auth/react'
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -40,10 +41,7 @@ const Header = () => {
             <div className="container mx-auto flex max-w-7xl items-center py-[7px]">
                 <Link href="/">
                     <a>
-                        <img
-                            src="http://stackoverflow.test/images/logo.svg"
-                            className="h-[30px]"
-                        />
+                        <img src="/images/logo.svg" className="h-[30px]" />
                     </a>
                 </Link>
 
@@ -88,7 +86,7 @@ const Header = () => {
                                     setIsMenuOpen(oldState => !oldState)
                                 }>
                                 <img
-                                    src="http://stackoverflow.test/images/user.png"
+                                    src="/images/user.png"
                                     width="24"
                                     height="24"
                                     alt=""
@@ -113,16 +111,18 @@ const Header = () => {
                             </button>
                         ) : (
                             <>
-                                <Link href="/login">
-                                    <a className="text-xs bg-blue-200 border border-blue-200 font-bold text-blue-700  rounded px-3 py-2 mr-1">
-                                        Log In
-                                    </a>
-                                </Link>
-                                <Link href="/register">
-                                    <a className="text-xs bg-blue-500 border border-blue-600 text-white rounded px-3 py-2 mr-1 font-bold">
-                                        Register
-                                    </a>
-                                </Link>
+                                {/* <Link href="/login"> */}
+                                <button
+                                    className="text-xs bg-blue-200 border border-blue-200 font-bold text-blue-700  rounded px-3 py-2 mr-1"
+                                    onClick={() => signIn()}>
+                                    Log In
+                                </button>
+                                {/* </Link> */}
+                                {/* <Link href="/register"> */}
+                                <button className="text-xs bg-blue-500 border border-blue-600 text-white rounded px-3 py-2 mr-1 font-bold">
+                                    Register
+                                </button>
+                                {/* </Link> */}
                             </>
                         )}
                     </div>

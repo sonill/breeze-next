@@ -5,6 +5,8 @@ import Link from 'next/link'
 const AuthorMiniDisplay = ({ isQuestion, data }) => {
     const user = data.user
 
+    if (!user) return <></>
+
     return (
         <div className="author-details w-[200px] rounded-[3px] bg-blue-50 p-2">
             <div className="mb-1">

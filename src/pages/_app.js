@@ -2,35 +2,18 @@ import 'react-quill/dist/quill.snow.css'
 import '../../styles/react-tags.css'
 
 import 'tailwindcss/tailwind.css'
-import Router from 'next/router'
-import { useEffect, useState } from 'react'
 import LoadingIndicator from '@/components/LoadingIndicator'
 
+import { SessionProvider } from 'next-auth/react'
+
 // const App = ({ Component, pageProps }) => <Component {...pageProps} />
-
-const App = ({ Component, pageProps }) => {
-    const [loading, setLoading] = useState(false)
-    useEffect(() => {
-        const start = () => {
-            setLoading(true)
-        }
-        const end = () => {
-            setLoading(false)
-        }
-        Router.events.on('routeChangeStart', start)
-        Router.events.on('routeChangeComplete', end)
-        Router.events.on('routeChangeError', end)
-        return () => {
-            Router.events.off('routeChangeStart', start)
-            Router.events.off('routeChangeComplete', end)
-            Router.events.off('routeChangeError', end)
-        }
-    }, [])
-
+const App = ({ Component, pageProps: { session, ...pageProps } }) => {
     return (
         <>
-            {loading && <LoadingIndicator />}
-            <Component {...pageProps} />
+            <SessionProvider session={session}>
+                <LoadingIndicator />
+                <Component {...pageProps} />
+            </SessionProvider>
         </>
     )
 }

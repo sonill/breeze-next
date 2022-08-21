@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import AuthorMiniDisplay from './AuthorMiniDisplay'
 import ShareAnswer from '../Layouts/ShareAnswer'
 import VotesActionBtn from './VotesActionBtn'
+import Tags from './Tags'
 
 const SingleAnswer = ({ data, isQuestion }) => {
     return (
@@ -13,7 +14,10 @@ const SingleAnswer = ({ data, isQuestion }) => {
                 <VotesActionBtn votes={data.votes} />
 
                 <div className="content-area ml-6 flex-1">
-                    <div className="mb-3">{data.content}</div>
+                    <div className="mb-3">
+                        {data.content}
+                        <Tags tags={data.tags} />
+                    </div>
 
                     <div className="share-author mt-5 mb-4 flex justify-between text-xs text-gray-500">
                         <ShareAnswer />

@@ -1,45 +1,24 @@
 import React, { useState } from 'react'
-import { render } from 'react-dom'
-// import './style.css'
 import { WithContext as ReactTags } from 'react-tag-input'
 
-const KeyCodes = {
-    comma: 188,
-    enter: 13,
-}
-
-const delimiters = [KeyCodes.comma, KeyCodes.enter]
-
-function TagsSelect({ options }) {
-    const [tags, setTags] = useState([
-        { id: 'Thailand', text: 'Thailand' },
-        { id: 'India', text: 'India' },
-        { id: 'Vietnam', text: 'Vietnam' },
-        { id: 'Turkey', text: 'Turkey' },
-    ])
-
-    const allTags = ['apple', 'google']
-    const suggestions = allTags.map(item => ({
-        id: item,
-        text: item,
-    }))
-
+const TagsSelect = ({ selTags, setSelTags, suggestions, handleTagSearch }) => {
     const handleDelete = i => {
-        setTags(tags.filter((tag, index) => index !== i))
+        setSelTags(selTags.filter((tag, index) => index !== i))
     }
 
     const handleAddition = tag => {
-        setTags([...tags, tag])
+        const newText = tag.text.replaceAll(' ', '-')
+        setSelTags([...selTags, { id: newText, text: newText }])
     }
 
     const handleDrag = (tag, currPos, newPos) => {
-        const newTags = tags.slice()
+        const newTags = selTags.slice()
 
         newTags.splice(currPos, 1)
         newTags.splice(newPos, 0, tag)
 
         // re-render
-        setTags(newTags)
+        setSelTags(newTags)
     }
 
     const handleTagClick = index => {
@@ -48,13 +27,14 @@ function TagsSelect({ options }) {
 
     return (
         <ReactTags
-            tags={tags}
+            tags={selTags}
             suggestions={suggestions}
-            delimiters={delimiters}
+            delimiters={[188, 13]}
             handleDelete={handleDelete}
             handleAddition={handleAddition}
             handleDrag={handleDrag}
             handleTagClick={handleTagClick}
+            handleInputChange={val => handleTagSearch(val)}
             inputFieldPosition="bottom"
             autocomplete
         />
