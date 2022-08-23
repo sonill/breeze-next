@@ -2,8 +2,8 @@ import { Router } from 'next/router'
 import { useEffect, useState } from 'react'
 import styles from './LoadingIndicator.module.css'
 
-const LoadingIndicator = () => {
-    const [loading, setLoading] = useState(false)
+const LoadingIndicator = ({ loadingState = false }) => {
+    const [loading, setLoading] = useState(loadingState)
     useEffect(() => {
         const start = () => {
             setLoading(true)
@@ -21,6 +21,7 @@ const LoadingIndicator = () => {
         }
     }, [])
 
+    console.log('loading', loading)
     if (!loading) return <></>
 
     return (

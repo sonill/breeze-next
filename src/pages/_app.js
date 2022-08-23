@@ -1,4 +1,5 @@
 import 'react-quill/dist/quill.snow.css'
+import '../../styles/react-quill.css'
 import '../../styles/react-tags.css'
 
 import 'tailwindcss/tailwind.css'

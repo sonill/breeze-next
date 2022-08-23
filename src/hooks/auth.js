@@ -35,13 +35,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
             })
     }
 
-    const login = async ({ setErrors, setStatus, ...props }) => {
+    const login = async ({ setErrors, setStatus, setIsLoading, ...props }) => {
         await csrf()
 
         setErrors([])
         setStatus(null)
 
-        axios
+        await axios
             .post('/login', props)
             .then(() => mutate())
             .catch(error => {
@@ -49,6 +49,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
                 setErrors(Object.values(error.response.data.errors).flat())
             })
+
+        setIsLoading(false)
     }
 
     const forgotPassword = async ({ setErrors, setStatus, email }) => {
