@@ -1,10 +1,9 @@
-const Alert = ({ errorMessage, onClick }) => {
-    console.log('err', errorMessage)
+const Alert = ({ errorMessages, onClick }) => {
     return (
         <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-[14px]"
             role="alert">
-            {errorMessage.map((err, index) => (
+            {errorMessages.map((err, index) => (
                 <p key={index}>{err}</p>
             ))}
             <button

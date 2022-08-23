@@ -8,10 +8,13 @@ import SimilarQuestions from './SimilarQuestions'
 import axios from '@/lib/axios'
 import AskQuestionLayout from '@/components/Layouts/AskQuestionLayout'
 import LoadingIndicator from '@/components/LoadingIndicator'
+import { useRouter } from 'next/router'
 
 const Ask = () => {
     // authentication.
     const { user } = useAuth({ middleware: 'auth' })
+
+    const router = useRouter()
 
     // state
     const [title, setTitle] = useState('')
@@ -20,7 +23,7 @@ const Ask = () => {
     const [tagKeyword, setTagKeyword] = useState('')
     const [tagsSearchUrl, setTagsSearchUrl] = useState('')
     const [questionsSearchUrl, setQuestionsSearchUrl] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessages, setErrorMessage] = useState([])
     const [processing, setProcessing] = useState(false)
 
     const timer = useRef(null)
@@ -33,7 +36,8 @@ const Ask = () => {
     )
 
     const resetErrorMessage = () => {
-        setErrorMessage('')
+        console.log('reseterrormsg')
+        setErrorMessage([])
     }
 
     // questions
@@ -51,10 +55,6 @@ const Ask = () => {
     // end questions
 
     // tags
-
-    // useEffect(() => {
-    //     console.log(selTags.map(item => item.text))
-    // }, [selTags])
 
     const handleTagSearch = keyword => {
         setTagKeyword(keyword)
@@ -77,13 +77,35 @@ const Ask = () => {
 
     // end tags
 
+    const validateForm = () => {
+        const errMsg = []
+        if (title.length < 1) {
+            errMsg.push('Title field is required.')
+        }
+
+        if (!body || body.replace(/<[^>]+>/g, '').length < 1) {
+            errMsg.push('Body field cannot be empty.')
+        }
+
+        if (selTags.length < 1) {
+            errMsg.push('Select atleast 1 tag.')
+        }
+
+        setErrorMessage(errMsg)
+
+        return errMsg.length < 1
+    }
+
     const handleSubmit = async event => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
-        setProcessing(true)
+        if (!validateForm()) {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            return
+        }
 
-        setErrorMessage('')
+        setProcessing(true)
 
         // Get data from the form.
         const data = {
@@ -91,9 +113,6 @@ const Ask = () => {
             body: body,
             tags: selTags.map(item => item.text),
         }
-
-        // Send the data to the server in JSON format.
-        const JSONdata = JSON.stringify(data)
 
         // API endpoint where we send form data.
         const endpoint = process.env.NEXT_PUBLIC_API_BASE_URL + 'questions'
@@ -107,40 +126,61 @@ const Ask = () => {
             body: data,
         }
 
-        const response = await axios
+        await axios
             .get(process.env.NEXT_PUBLIC_BACKEND_URL + '/sanctum/csrf-cookie')
             .then(() => {
                 axios
                     .post(endpoint, options)
                     .then(res => {
-                        const response = res.data
-
-                        if ('error' in response) {
-                            // validation error.
-                            setErrorMessage(response.message)
-                        }
-
-                        setProcessing(false)
+                        // redirect.
+                        router.push('/questions/' + res.data.data.id)
                     })
                     .catch(function (error) {
-                        console.log('error', error)
+                        if (error.response.status === 422) {
+                            // validation fail.
+
+                            if (error?.response?.data?.message) {
+                                Object.values(
+                                    error?.response?.data?.message,
+                                ).map(item => {
+                                    setErrorMessage(prevState => [
+                                        ...prevState,
+                                        ...item,
+                                    ])
+
+                                    window.scrollTo({
+                                        top: 0,
+                                        left: 0,
+                                        behavior: 'smooth',
+                                    })
+                                })
+                            }
+                        } else {
+                            console.log('error', error.toJSON())
+                        }
                     })
             })
+
+        setProcessing(false)
 
         // Get the response data from server as JSON.
         // If server returns the name submitted, that means the form works.
         // const result = await response.json()
     }
 
+    useEffect(() => {
+        console.log('processing', processing)
+    }, [processing])
+
     return (
         <AskQuestionLayout
             pageTitle="Ask a Question"
-            errorMessage={errorMessage}
+            errorMessages={errorMessages}
             resetErrorMessage={resetErrorMessage}>
             {!user && <LoadingIndicator />}
             {processing && <LoadingIndicator loadingState={true} />}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} autoComplete="off">
                 <div
                     className=" mr-[20px] bg-white rounded p-4 text-xs"
                     style={{ boxShadow: '0 0 7px #ccc' }}>
@@ -192,9 +232,8 @@ const Ask = () => {
                 <div className="mt-6">
                     <button
                         type="submit"
-                        className="rounded-[5px] bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer"
-                        onClick={() => {}}>
-                        Publish
+                        className="rounded-[5px] bg-blue-500 px-4 py-2 text-sm text-white hover:bg-blue-700 cursor-pointer">
+                        {processing ? 'Processing' : 'Publish'}
                     </button>
                 </div>
             </form>

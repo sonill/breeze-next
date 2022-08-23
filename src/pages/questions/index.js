@@ -27,7 +27,6 @@ const Home = ({ posts }) => {
         return await fetch(fetchUrl)
             .then(res => res.json())
             .then(result => {
-                console.log('fetch')
                 setQuestions(result)
 
                 // fetch finished.

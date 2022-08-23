@@ -5,18 +5,9 @@ import Alert from '../Alert'
 const AskQuestionLayout = ({
     pageTitle,
     children,
-    errorMessage,
+    errorMessages,
     resetErrorMessage,
 }) => {
-    const errorText = []
-
-    if (errorMessage) {
-        Object.values(errorMessage).map((item, index) => {
-            item.map(errorMsg => {
-                errorText.push(errorMsg)
-            })
-        })
-    }
     return (
         <>
             <Head>
@@ -40,10 +31,10 @@ const AskQuestionLayout = ({
                         <div className="flex items-start">
                             {/* editor-container */}
                             <div id="editor-container" className="flex-1">
-                                {errorMessage && (
+                                {errorMessages.length > 0 && (
                                     <div className="mr-[20px] mb-3">
                                         <Alert
-                                            errorMessage={errorText}
+                                            errorMessages={errorMessages}
                                             onClick={resetErrorMessage}
                                         />
                                     </div>

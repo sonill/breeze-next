@@ -21,12 +21,13 @@ const LoadingIndicator = ({ loadingState = false }) => {
         }
     }, [])
 
-    console.log('loading', loading)
     if (!loading) return <></>
 
     return (
-        <div className={styles.wrapper}>
-            <div className={styles.loader}></div>
+        <div className={styles.container}>
+            <div className={styles.wrapper}>
+                <div className={styles.loader}></div>
+            </div>
         </div>
     )
 }

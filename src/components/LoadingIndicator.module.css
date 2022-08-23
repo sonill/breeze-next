@@ -3,20 +3,30 @@
 	to {left: calc(100vw - 150px);}
   }
 
+  .container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.2);
+	z-index: 999;
+  }
 
 .wrapper {
-	background: rgba(0, 0, 0, 0.356);
-	position: absolute;
+	background: rgba(0, 0, 0, 0.562);
+	position: fixed;
 	left: 0;
 	top:0;
 	right: 0;
 	height: 3px;
 	z-index: 9999;
+
 }
 
 .loader{
 	width: 150px;
-	position: absolute;
+	position: fixed;
 	background-color: red;;
 	top: 0;
 	left: 0;
