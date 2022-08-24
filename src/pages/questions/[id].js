@@ -1,15 +1,55 @@
 import AskBtn from '@/components/AskBtn'
 import AppLayout from '@/components/Layouts/AppLayout'
 import RightSidebar from '@/components/Layouts/RightSidebar'
+import PostAnswer from '@/components/Questions/PostAnswer'
 import SingleAnswer from '@/components/SingleQuestion/SingleAnswer'
+import Toast from '@/components/Toast'
+import axios from '@/lib/axios'
 import daysjs from 'dayjs'
+import { useEffect, useState } from 'react'
 
 const Questions = ({ questions, answers }) => {
+    const [toastItems, setToastItems] = useState([
+        // {
+        //     message: 'this is example of toast notification',
+        //     status: 'success',
+        // },
+        // {
+        //     message: 'this is example of toast notification',
+        //     status: 'danger',
+        // },
+        // {
+        //     message: 'this is example of toast notification',
+        //     status: 'success',
+        // },
+        // {
+        //     message: 'this is example of toast notification',
+        //     status: 'danger',
+        // },
+    ])
+
     if (!questions || !answers) return <></>
 
-    console.log(questions.data)
+    useEffect(() => {
+        // increment question view.
+        axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL +
+                '/api/increment-views/' +
+                questions.data.id,
+        )
+    }, [])
+
+    useEffect(() => {
+        // const interval = setInterval(() => {
+        //     //   setSeconds(seconds => seconds + 1);
+        //     console.log('ser tinterval')
+        // }, 2000)
+        // return () => clearInterval(interval)
+    }, [])
+
     return (
         <AppLayout pageTitle={questions.data.question}>
+            <Toast items={toastItems} setToastItems={setToastItems} />
             <>
                 <div className="pl-5 ">
                     <div className="flex items-start justify-between border-b pb-4 mb-4">
@@ -41,19 +81,45 @@ const Questions = ({ questions, answers }) => {
                             <SingleAnswer
                                 data={questions.data}
                                 isQuestion={true}
+                                toastItems={toastItems}
+                                setToastItems={setToastItems}
                             />
 
                             <div className="answers-container mt-[60px]">
-                                <h3 className="text-xl">
-                                    {answers.data.length} Answers
-                                </h3>
+                                {answers.data.length > 0 ? (
+                                    <>
+                                        <h3 className="text-xl">
+                                            {answers.data.length} Answers
+                                        </h3>
 
-                                {answers.data.map(answer => (
-                                    <SingleAnswer
-                                        key={answer.id}
-                                        data={answer}
-                                    />
-                                ))}
+                                        {answers.data.map(answer => (
+                                            <SingleAnswer
+                                                key={answer.id}
+                                                data={answer}
+                                                selected_answer_id={
+                                                    questions.data
+                                                        .selected_answer
+                                                }
+                                                toastItems={toastItems}
+                                                setToastItems={setToastItems}
+                                            />
+                                        ))}
+                                    </>
+                                ) : (
+                                    <>
+                                        <PostAnswer
+                                            question_id={questions.data.id}
+                                        />
+                                    </>
+                                )}
+
+                                <p className="mt-6">
+                                    Browse other questions tagged python or{' '}
+                                    <a className="text-blue-600">
+                                        ask your own question
+                                    </a>
+                                    .
+                                </p>
                             </div>
                         </div>
                         <RightSidebar />

@@ -1,6 +1,6 @@
 @keyframes progressAnimation {
 	from {left:0;}
-	to {left: calc(100vw - 150px);}
+	to {left: calc(100vw - 200px);}
   }
 
   .container{
@@ -14,18 +14,18 @@
   }
 
 .wrapper {
-	background: rgba(0, 0, 0, 0.562);
+	/* background: rgba(0, 0, 0, 0.562);
 	position: fixed;
 	left: 0;
 	top:0;
 	right: 0;
 	height: 3px;
-	z-index: 9999;
+	z-index: 9999; */
 
 }
 
 .loader{
-	width: 150px;
+	width: 200px;
 	position: fixed;
 	background-color: red;;
 	top: 0;

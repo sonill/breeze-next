@@ -1,21 +1,33 @@
-import nFormatter from '@/Helpers/numbers'
-import { data } from 'autoprefixer'
-import Link from 'next/link'
-import dayjs from 'dayjs'
 import AuthorMiniDisplay from './AuthorMiniDisplay'
 import ShareAnswer from '../Layouts/ShareAnswer'
 import VotesActionBtn from './VotesActionBtn'
 import Tags from './Tags'
+import parse from 'html-react-parser'
 
-const SingleAnswer = ({ data, isQuestion }) => {
+const SingleAnswer = ({
+    data,
+    isQuestion,
+    selected_answer_id,
+    toastItems,
+    setToastItems,
+}) => {
+    // console.log('toastItems', toastItems)
     return (
         <div className="border-b py-5">
             <div className="wrapper flex">
-                <VotesActionBtn votes={data.votes} />
+                <VotesActionBtn
+                    votes={data.votes}
+                    isQuestion={isQuestion}
+                    question_id={data.question_id}
+                    answer_id={data.id}
+                    selected_answer_id={selected_answer_id}
+                    toastItems={toastItems}
+                    setToastItems={setToastItems}
+                />
 
                 <div className="content-area ml-6 flex-1">
                     <div className="mb-3">
-                        {data.content}
+                        {parse(data.content)}
                         <Tags tags={data.tags} />
                     </div>
 

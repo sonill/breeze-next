@@ -36,7 +36,6 @@ const Ask = () => {
     )
 
     const resetErrorMessage = () => {
-        console.log('reseterrormsg')
         setErrorMessage([])
     }
 
@@ -136,13 +135,11 @@ const Ask = () => {
                         router.push('/questions/' + res.data.data.id)
                     })
                     .catch(function (error) {
-                        if (error.response.status === 422) {
-                            // validation fail.
+                        // validation fail.
 
-                            if (error?.response?.data?.message) {
-                                Object.values(
-                                    error?.response?.data?.message,
-                                ).map(item => {
+                        if (error?.response?.data?.message) {
+                            Object.values(error?.response?.data?.message).map(
+                                item => {
                                     setErrorMessage(prevState => [
                                         ...prevState,
                                         ...item,
@@ -153,8 +150,8 @@ const Ask = () => {
                                         left: 0,
                                         behavior: 'smooth',
                                     })
-                                })
-                            }
+                                },
+                            )
                         } else {
                             console.log('error', error.toJSON())
                         }
@@ -162,10 +159,6 @@ const Ask = () => {
             })
 
         setProcessing(false)
-
-        // Get the response data from server as JSON.
-        // If server returns the name submitted, that means the form works.
-        // const result = await response.json()
     }
 
     useEffect(() => {
