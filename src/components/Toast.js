@@ -15,30 +15,33 @@ const Toast = ({ items, setToastItems }) => {
         if (status == 'success') return 'text-green-700'
     }
 
-    let ToastItems = items
+    // let ToastItems = items
 
     const deleteToastItem = itemIndex => {
-        setToastItems(ToastItems.filter((item, index) => index != itemIndex))
+        setToastItems(prevState =>
+            prevState.filter((item, index) => index != itemIndex),
+        )
     }
 
     useEffect(() => {
-        return
-        const interval = setInterval(() => {
-            // if (ToastItems.length < 1) {
-            //     clearInterval(interval)
-            // }
+        let ToastItems = items
 
-            // if (ToastItems.length > 1) {
-            //     ToastItems = ToastItems.slice(1)
-            // } else {
-            //     ToastItems = []
-            // }
+        const interval = setInterval(() => {
+            if (ToastItems.length < 1) {
+                clearInterval(interval)
+            }
+
+            if (ToastItems.length > 1) {
+                ToastItems = ToastItems.slice(1)
+            } else {
+                ToastItems = []
+            }
 
             // remove first element from arary.
             setToastItems(ToastItems)
-        }, 2000)
+        }, 5000)
         return () => clearInterval(interval)
-    }, [])
+    }, [items])
 
     if (items?.length < 1) return <></>
 
