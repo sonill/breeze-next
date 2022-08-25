@@ -1,6 +1,6 @@
 @keyframes progressAnimation {
 	from {left:0;}
-	to {left: calc(100vw - 200px);}
+	to {left: 100%; }
   }
 
   .container{

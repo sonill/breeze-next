@@ -7,22 +7,22 @@ import parse from 'html-react-parser'
 const SingleAnswer = ({
     data,
     isQuestion,
-    selected_answer_id,
-    toastItems,
+    question_id,
     setToastItems,
+    selectedAnswer,
+    setSelectedAnswer,
 }) => {
-    // console.log('toastItems', toastItems)
     return (
         <div className="border-b py-5">
             <div className="wrapper flex">
                 <VotesActionBtn
                     votes={data.votes}
                     isQuestion={isQuestion}
-                    question_id={data.question_id}
+                    question_id={question_id}
                     answer_id={data.id}
-                    selected_answer_id={selected_answer_id}
-                    toastItems={toastItems}
                     setToastItems={setToastItems}
+                    setSelectedAnswer={setSelectedAnswer}
+                    selectedAnswer={selectedAnswer}
                 />
 
                 <div className="content-area ml-6 flex-1">

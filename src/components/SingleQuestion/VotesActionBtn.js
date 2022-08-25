@@ -9,23 +9,25 @@ const ViewsActionBtn = ({
     isQuestion,
     question_id,
     answer_id,
-    selected_answer_id,
-    toastItems,
     setToastItems,
+    selectedAnswer,
+    setSelectedAnswer,
 }) => {
-    const [isSelected, setIsSelected] = useState(false)
+    const [isSelectedAnswer, setIsSelectedAnswer] = useState(false)
     const [processing, setProcessing] = useState(false)
+    const [voteCount, setVoteCount] = useState(votes)
 
     useEffect(() => {
-        if (selected_answer_id == answer_id) {
-            setIsSelected(true)
-        }
-    }, [])
+        setIsSelectedAnswer(selectedAnswer == answer_id)
+    }, [selectedAnswer])
 
     // set-correct-answer
     const setCorectAnswer = async () => {
         if (processing) return
 
+        if (selectedAnswer === answer_id) return
+
+        setIsSelectedAnswer(true)
         setProcessing(true)
 
         await axios
@@ -36,9 +38,7 @@ const ViewsActionBtn = ({
                     answer_id: answer_id,
                 },
             })
-            .then(res => {
-                setIsSelected(true)
-            })
+            .then(() => setSelectedAnswer(answer_id))
             .catch(function (error) {
                 setToastItems(prevState => [
                     ...prevState,
@@ -58,18 +58,21 @@ const ViewsActionBtn = ({
 
         setProcessing(true)
 
+        let formData = {}
+
+        if (isQuestion) {
+            formData = { question_id: question_id, action: action }
+        } else {
+            formData = { answer_id: answer_id, action: action }
+        }
+
         await axios
             .post(process.env.NEXT_PUBLIC_API_BASE_URL + 'update-vote', {
                 method: 'POST',
-                body: {
-                    question_id: question_id,
-                    answer_id: answer_id,
-                    action: action,
-                },
+                body: formData,
             })
             .then(res => {
-                // setIsSelected(true)
-                console.log('success')
+                setVoteCount(res.data)
             })
             .catch(function (error) {
                 setToastItems(prevState => [
@@ -84,10 +87,6 @@ const ViewsActionBtn = ({
         setProcessing(false)
     }
 
-    // useEffect(() => {
-    //     // console.log('toastItems 1', toastItems)
-    // }, [toastItems])
-
     return (
         <>
             {processing && <LoadingIndicator loadingState={true} />}
@@ -101,7 +100,7 @@ const ViewsActionBtn = ({
                 </button>
 
                 <span className="text-[20px] text-gray-500">
-                    {nFormatter(votes)}
+                    {nFormatter(voteCount)}
                 </span>
 
                 <button type="button" onClick={() => updateVote('DECREMENT')}>
@@ -126,7 +125,9 @@ const ViewsActionBtn = ({
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             className={`${
-                                isSelected ? 'fill-green-700' : 'fill-gray-300'
+                                isSelectedAnswer
+                                    ? 'fill-green-700'
+                                    : 'fill-gray-300'
                             } hover:fill-green-700`}>
                             <path d="M31.0627 5.40005L14.1814 22.0737C12.9313 23.3088 10.9034 23.3088 9.65217 22.0737L0.937917 13.4654C-0.312639 12.2304 -0.312639 10.2271 0.937917 8.99189C2.18871 7.75639 4.21638 7.75639 5.46662 8.99142L11.9174 15.3634L26.5333 0.92627C27.784 -0.309225 29.8119 -0.308289 31.0622 0.92627C32.3125 2.16153 32.3125 4.16409 31.0627 5.40005Z" />
                         </svg>

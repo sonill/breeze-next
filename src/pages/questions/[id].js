@@ -9,42 +9,21 @@ import daysjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
 const Questions = ({ questions, answers }) => {
-    const [toastItems, setToastItems] = useState([
-        // {
-        //     message: 'this is example of toast notification',
-        //     status: 'success',
-        // },
-        // {
-        //     message: 'this is example of toast notification',
-        //     status: 'danger',
-        // },
-        // {
-        //     message: 'this is example of toast notification',
-        //     status: 'success',
-        // },
-        // {
-        //     message: 'this is example of toast notification',
-        //     status: 'danger',
-        // },
-    ])
+    const [toastItems, setToastItems] = useState([])
+    const [selectedAnswer, setSelectedAnswer] = useState()
 
     if (!questions || !answers) return <></>
 
     useEffect(() => {
+        // update selected answer
+        setSelectedAnswer(questions.data.selected_answer)
+
         // increment question view.
         axios.get(
             process.env.NEXT_PUBLIC_BACKEND_URL +
                 '/api/increment-views/' +
                 questions.data.id,
         )
-    }, [])
-
-    useEffect(() => {
-        // const interval = setInterval(() => {
-        //     //   setSeconds(seconds => seconds + 1);
-        //     console.log('ser tinterval')
-        // }, 2000)
-        // return () => clearInterval(interval)
     }, [])
 
     return (
@@ -81,7 +60,7 @@ const Questions = ({ questions, answers }) => {
                             <SingleAnswer
                                 data={questions.data}
                                 isQuestion={true}
-                                toastItems={toastItems}
+                                question_id={questions.data.id}
                                 setToastItems={setToastItems}
                             />
 
@@ -96,12 +75,12 @@ const Questions = ({ questions, answers }) => {
                                             <SingleAnswer
                                                 key={answer.id}
                                                 data={answer}
-                                                selected_answer_id={
-                                                    questions.data
-                                                        .selected_answer
-                                                }
-                                                toastItems={toastItems}
                                                 setToastItems={setToastItems}
+                                                question_id={questions.data.id}
+                                                setSelectedAnswer={
+                                                    setSelectedAnswer
+                                                }
+                                                selectedAnswer={selectedAnswer}
                                             />
                                         ))}
                                     </>

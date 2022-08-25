@@ -1,14 +1,12 @@
 import { useAuth } from '@/hooks/auth'
 import axios from '@/lib/axios'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Alert from '../Alert'
 import EditorComponent from '../Forms/EditorComponent'
 import LoadingIndicator from '../LoadingIndicator'
 
 const PostAnswer = ({ question_id }) => {
     const { user } = useAuth({ middlewares: 'guest' })
-    const router = useRouter()
 
     const [answer, setAnswer] = useState('')
     const [errorMessages, setErrorMessage] = useState([])
@@ -34,8 +32,6 @@ const PostAnswer = ({ question_id }) => {
         // Stop the form from submitting and refreshing the page.
         event.preventDefault()
 
-        console.log('handleSubmit')
-
         if (!validateForm()) {
             return
         }
@@ -59,7 +55,8 @@ const PostAnswer = ({ question_id }) => {
                     })
                     .then(res => {
                         // redirect.
-                        router.push('/questions/' + question_id)
+                        // router.push('/questions/' + question_id)
+                        window.location.reload(true)
                     })
                     .catch(error => {
                         if (error?.response?.data?.message) {
@@ -88,9 +85,6 @@ const PostAnswer = ({ question_id }) => {
             </>
         )
 
-    // useEffect(() => {
-    //     console.log('answer', answer)
-    // }, [answer])
     return (
         <>
             {processing && <LoadingIndicator loadingState={true} />}
